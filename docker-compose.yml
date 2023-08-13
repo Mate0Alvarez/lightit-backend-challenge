@@ -1,0 +1,42 @@
+version: '3'
+services:
+  web:
+    image: php:8.2.7-apache
+    container_name: laravel-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - laravel-network
+
+  db:
+    image: mysql:8.0.30
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: lightit_challenge_db
+      MYSQL_USER: laravel_user
+      MYSQL_PASSWORD: laravel_password
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - laravel-network
+
+  queue:
+    image: laravel:latest
+    command: php artisan queue:work
+    depends_on:
+      - web
+    restart: always
+
+networks:
+  laravel-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
