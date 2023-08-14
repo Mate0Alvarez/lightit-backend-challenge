@@ -28,7 +28,7 @@ services:
       - laravel-network
 
   queue:
-    image: laravel:latest
+    image: php:8.2.7-apache
     command: php artisan queue:work
     depends_on:
       - web
