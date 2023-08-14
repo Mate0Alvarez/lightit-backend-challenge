@@ -2,10 +2,16 @@
 
 namespace Src\Shared\Events;
 
+use Illuminate\Support\Facades\Log;
+
 class EventDispatcher implements EventDispatch
 {
     public function handle(string $event, ?object $param): void
     {
-        event(new $event($param));
+        try {
+            event(new $event($param));
+        } catch (\Throwable $throwable) {
+            Log::error($throwable);
+        }
     }
 }
