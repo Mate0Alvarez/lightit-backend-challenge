@@ -1,12 +1,14 @@
 version: '3'
 services:
   web:
-    image: php:8.2.7-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: laravel-app
     ports:
       - "8080:80"
     volumes:
-      - ./src:/var/www/html
+      - ./:/var/www/html
     depends_on:
       - db
     networks:
@@ -18,21 +20,26 @@ services:
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: lightit_challenge_db
       MYSQL_USER: laravel_user
       MYSQL_PASSWORD: laravel_password
+      MYSQL_ROOT_PASSWORD: root_password
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - laravel-network
-
-  queue:
-    image: php:8.2.7-apache
-    command: php artisan queue:work
-    depends_on:
-      - web
-    restart: always
+  
+  php:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 9000:80
+    networks:
+      - laravel-network
 
 networks:
   laravel-network:
