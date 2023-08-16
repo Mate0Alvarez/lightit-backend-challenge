@@ -38,7 +38,8 @@ DB_PASSWORD=laravel_password
 Open a terminal in the project root and execute the following command to start the containers:
 
 ```
-docker-compose up --build
+docker-compose build
+docker-compose up -d
 ```
 
 Install Laravel dependencies. Access the proyect container with:
