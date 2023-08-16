@@ -33,6 +33,8 @@ DB_PORT=3306
 DB_DATABASE=lightit_challenge_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_password
+...
+QUEUE_CONNECTION=database
 ```
 
 Open a terminal in the project root and execute the following command to start the containers:
